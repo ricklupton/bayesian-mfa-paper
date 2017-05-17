@@ -1,0 +1,10 @@
+name: bayesian-mfa-paper
+channels:
+  - conda-forge
+dependencies:
+  - python=3
+  - pymc3=3
+  - pandas
+  - matplotlib
+  - pip:
+      - ipysankeywidget
