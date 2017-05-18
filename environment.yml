@@ -6,5 +6,7 @@ dependencies:
   - pymc3=3
   - pandas
   - matplotlib
+  - seaborn
   - pip:
       - ipysankeywidget
+      - sankeyview

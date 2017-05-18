@@ -79,7 +79,7 @@ def animate_samples(processes, possible_inputs, trace, sdd, rescale=False):
     def update(isamp):
         new_widget = show_sankey(sdd, dataset(isamp), width=600, height=300,
                                 margins=dict(left=50, right=100, top=10, bottom=10))
-        widget.value = new_widget.value
+        widget.links = new_widget.links
 
     def play(_):
         try:
@@ -97,30 +97,40 @@ def animate_samples(processes, possible_inputs, trace, sdd, rescale=False):
 
 
 import sankeyview as sv
+import ipywidgets
 from ipysankeywidget import SankeyWidget
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import pymc3 as pm
 
+def hpd_range(x):
+    hpd = pm.hpd(x)
+    return hpd[1] - hpd[0]
 
 # From matplotlib.colours
 def rgb2hex(rgb):
     'Given an rgb or rgba sequence of 0-1 floats, return the hex string'
     return '#%02x%02x%02x' % tuple([int(np.round(val * 255)) for val in rgb[:3]])
 
-def show_variance(flows, sdd, normed=False, vlim=None, width=800):
-    palette = sequential.Reds_9.mpl_colormap
+def show_variance(flows, sdd, normed=False, vlim=None, width=800, palette=None):
+    if palette is None:
+        palette = sequential.Reds_9.mpl_colormap
 
     value, vmin, vmax = _calc_variance(flows, sdd, normed, vlim, palette)
 
-    w = SankeyWidget(value=value, width=str(width), height='400',
+    w = SankeyWidget(nodes=value['nodes'],
+                     links=value['links'],
+                     order=value['order'],
+                     layout=ipywidgets.Layout(width=str(width), height='400'),
                      margins=dict(top=15, bottom=10, left=100, right=100))
-    colorbar(palette, vmin, vmax, 'Std dev' + (' (normalised)' if normed else ''))
+    colorbar(palette, vmin, vmax, 'Credible interval width' + (' (normalised)' if normed else ' [Mt]'))
 
     return w
 
 
-def save_variance(flows, sdd, normed=False, vlim=None):
-    palette = sequential.Reds_9.mpl_colormap
+def save_variance(flows, sdd, normed=False, vlim=None, palette=None):
+    if palette is None:
+        palette = sequential.Reds_9.mpl_colormap
     value, _, _ = _calc_variance(flows, sdd, normed, vlim, palette)
     return sv.serialise_data(value)
 
@@ -130,9 +140,9 @@ def _calc_variance(flows, sdd, normed, vlim, palette):
     G, groups = sv.sankey_view(sdd, dataset)
 
     if normed:
-        hue = lambda data: data['value'].std() / data['value'].mean()
+        hue = lambda data: hpd_range(data['value']) / data['value'].mean()
     else:
-        hue = lambda data: data['value'].std()
+        hue = lambda data: hpd_range(data['value'])
 
     values = np.array([hue(data) for _, _, data in G.edges(data=True)])
     if vlim is None:
@@ -149,7 +159,7 @@ def _calc_variance(flows, sdd, normed, vlim, palette):
 
 def colorbar(cmap, vmin, vmax, label):
     # Make a figure and axes with dimensions as desired.
-    fig = plt.figure(figsize=(8, 0.3))
+    fig = plt.figure(figsize=(1.21, 0.2))
     ax1 = fig.add_axes([0.05, 0.25, 0.9, 0.9])
 
     # Set the colormap and norm to correspond to the data for which
@@ -159,5 +169,6 @@ def colorbar(cmap, vmin, vmax, label):
                                    norm=norm,
                                    orientation='horizontal')
     cb.set_label(label)
+    cb.set_ticks([vmin, vmax])
 
     return fig
