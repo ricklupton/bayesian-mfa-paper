@@ -4,8 +4,7 @@ import time
 import numpy as np
 import pandas as pd
 import ipywidgets
-from sankeyview import Dataset
-from sankeyview.jupyter import show_sankey
+from floweaver import Dataset, weave
 from palettable.colorbrewer import qualitative, sequential
 
 
@@ -57,8 +56,8 @@ def show_sample(processes, possible_inputs, trace, isamp, sdd, widget=None, burn
         I = trace['inputs'][isamp]
         F = trace['F'][isamp]
         dataset = Dataset(inputs_flows_as_dataframe(processes, possible_inputs, I, F))
-    new_widget = show_sankey(sdd, dataset, width=600, height=300,
-                             margins=dict(left=50, right=100, top=10, bottom=10))
+    new_widget = weave(sdd, dataset).to_widget(width=600, height=300,
+                                               margins=dict(left=50, right=100, top=10, bottom=10))
     if widget is None:
         return new_widget
     else:
@@ -71,14 +70,14 @@ def animate_samples(processes, possible_inputs, trace, sdd, rescale=False):
         F = trace['F'][isamp]
         return Dataset(inputs_flows_as_dataframe(processes, possible_inputs, I, F))
 
-    widget = show_sankey(sdd, dataset(0), width=800, height=500,
-                         margins=dict(left=50, right=100, top=10, bottom=10))
+    widget = weave(sdd, dataset(0)).to_widget(width=800, height=500,
+                                              margins=dict(left=50, right=100, top=10, bottom=10))
     button = ipywidgets.Button(description='Go')
     box = ipywidgets.VBox([button, widget])
 
     def update(isamp):
-        new_widget = show_sankey(sdd, dataset(isamp), width=600, height=300,
-                                margins=dict(left=50, right=100, top=10, bottom=10))
+        new_widget = weave(sdd, dataset(isamp)).to_widget(width=600, height=300,
+                                                          margins=dict(left=50, right=100, top=10, bottom=10))
         widget.links = new_widget.links
 
     def play(_):
@@ -96,7 +95,7 @@ def animate_samples(processes, possible_inputs, trace, sdd, rescale=False):
     return box
 
 
-import sankeyview as sv
+import floweaver
 import ipywidgets
 from ipysankeywidget import SankeyWidget
 import matplotlib as mpl
@@ -112,32 +111,48 @@ def rgb2hex(rgb):
     'Given an rgb or rgba sequence of 0-1 floats, return the hex string'
     return '#%02x%02x%02x' % tuple([int(np.round(val * 255)) for val in rgb[:3]])
 
-def show_variance(flows, sdd, normed=False, vlim=None, width=800, palette=None):
+
+def weave_variance(flows, sdd, normed=False, vlim=None, palette=None):
     if palette is None:
         palette = sequential.Reds_9.mpl_colormap
 
-    value, vmin, vmax = _calc_variance(flows, sdd, normed, vlim, palette)
+    # Aggregate
+    def measures(group):
+        agg = group.groupby('sample').agg({'value': 'sum'})
+        return {'value': agg['value'].values}
 
-    w = SankeyWidget(nodes=value['nodes'],
-                     links=value['links'],
-                     order=value['order'],
-                     layout=ipywidgets.Layout(width=str(width), height='400'),
-                     margins=dict(top=15, bottom=10, left=100, right=100))
-    colorbar(palette, vmin, vmax, 'Credible interval width' + (' (normalised)' if normed else ' [Mt]'))
+    def link_width(data):
+        return data['value'].mean()
 
-    return w
+    scale = (NormalisedHPDRangeScale('value', palette=palette) if normed else
+             AbsoluteHPDRangeScale('value', palette=palette))
+
+    if vlim is not None:
+        scale.set_domain(vlim)
+
+    result = weave(sdd, flows, measures=measures, link_width=link_width, link_color=scale)
+
+    return result, scale.get_domain()
+
+
+def show_variance(flows, sdd, normed=False, vlim=None, width=800, palette=None):
+    result, vlim = weave_variance(flows, sdd, normed, vlim, palette)
+
+    colorbar(palette, scale.domain[0], scale.domain[1],
+             'Credible interval width' + (' (normalised)' if normed else ' [Mt]'))
+
+    return result.to_widget(width=width, height=400,
+                            margins=dict(top=15, bottom=10, left=100, right=100))
 
 
 def save_variance(flows, sdd, normed=False, vlim=None, palette=None):
-    if palette is None:
-        palette = sequential.Reds_9.mpl_colormap
-    value, _, _ = _calc_variance(flows, sdd, normed, vlim, palette)
-    return sv.serialise_data(value)
+    result, vlim = weave_variance(flows, sdd, normed, vlim, palette)
+    return result.to_json()
 
 
 def _calc_variance(flows, sdd, normed, vlim, palette):
-    dataset = sv.Dataset(flows)
-    G, groups = sv.sankey_view(sdd, dataset)
+    dataset = floweaver.Dataset(flows)
+    G, groups = floweaver.sankey_view(sdd, dataset)
 
     if normed:
         hue = lambda data: hpd_range(data['value']) / data['value'].mean()
@@ -153,8 +168,18 @@ def _calc_variance(flows, sdd, normed, vlim, palette):
 
     get_color = lambda m, data: rgb2hex(palette((hue(data) - vmin) / (vmax - vmin)))
 
-    value = sv.graph_to_sankey(G, groups, sample='mean', flow_color=get_color)
+    value = floweaver.graph_to_sankey(G, groups, sample='mean', flow_color=get_color)
     return value, vmin, vmax
+
+
+class AbsoluteHPDRangeScale(floweaver.QuantitativeScale):
+    def get_value(self, link, measures):
+        return hpd_range(measures['value'])
+
+
+class NormalisedHPDRangeScale(floweaver.QuantitativeScale):
+    def get_value(self, link, measures):
+        return hpd_range(measures['value']) / measures['value'].mean()
 
 
 def colorbar(cmap, vmin, vmax, label):

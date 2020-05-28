@@ -2,7 +2,7 @@
 
 import attr
 
-from sankeyview import ProcessGroup, Waypoint, Bundle, Elsewhere, SankeyDefinition, Partition
+from floweaver import ProcessGroup, Waypoint, Bundle, Elsewhere, SankeyDefinition, Partition
 
 def diagram():
     nodes = {

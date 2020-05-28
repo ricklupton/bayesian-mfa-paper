@@ -11,8 +11,7 @@ from theano.tensor.nlinalg import matrix_inverse
 import pymc3 as pm
 
 
-from sankeyview import Dataset
-from sankeyview.jupyter import show_sankey
+from floweaver import Dataset, weave
 
 
 def inputs_flows_as_dataframe(processes, possible_inputs, inputs, flows):
@@ -146,8 +145,8 @@ class SplitParamModel:
             self.model.params: point['params']})
         dataset = Dataset(
             inputs_flows_as_dataframe(self.processes, self.possible_inputs, all_inputs, flows))
-        return show_sankey(sdd, dataset, width=900, height=400,
-                           margins=dict(left=50, right=100, top=10, bottom=10))
+        return weave(sdd, dataset).to_widget( width=900, height=400,
+                                              margins=dict(left=bg50, right=100, top=10, bottom=10))
 
 
 class EfficiencyProcess:

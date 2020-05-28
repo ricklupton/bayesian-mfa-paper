@@ -40,5 +40,5 @@ def plot_points(X, barycentric=True, border=True, ax=None, labels=None,
         for (x, y), (va, ha), label in zip(_corners, alignments, labels):
             ax.text(x, y, label, transform=ax.transAxes, ha=ha, va=va)
     if border is True:
-        ax.hold(1)
+        # ax.hold(1)
         ax.triplot(_triangle, linewidth=1)

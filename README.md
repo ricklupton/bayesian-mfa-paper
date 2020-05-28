@@ -5,9 +5,12 @@
 Using Anaconda, create an environment with the required packages, and activate it:
 
 ```shell
-$ conda create env -n bayesian-mfa-paper -f environment.yml
+$ conda env create --file environment.yml
 $ source activate bayesian-mfa-paper     # remove the word "source" on Windows
 ```
+
+The last successfully used package versions are listed in
+[exact-package-versions.txt](exact-package-versions.txt).
 
 Enable the environment IPython kernel and the Sankey widget
 
