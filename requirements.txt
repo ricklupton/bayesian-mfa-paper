@@ -1,8 +1,0 @@
-numpy == 1.12.1
-pandas == 0.24.2
-jupyter
-theano == 1.0.3
-pymc3 == 3.0
-sankeyview
-ipynbsankeywidget
-attrs==19.1.0
