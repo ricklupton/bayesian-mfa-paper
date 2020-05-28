@@ -1,91 +1,88 @@
-# packages in environment at /Users/rcl38/anaconda3/envs/bayesian-mfa-paper:
-#
-# Name                    Version                   Build  Channel
-appnope                   0.1.0                    pypi_0    pypi
-attrs                     19.3.0                   pypi_0    pypi
-backcall                  0.1.0                    pypi_0    pypi
-blas                      1.1                    openblas    conda-forge
-bleach                    3.1.5                    pypi_0    pypi
-ca-certificates           2020.4.5.1           hecc5488_0    conda-forge
-certifi                   2020.4.5.1       py36h9f0ad1d_0    conda-forge
-cycler                    0.10.0                     py_2    conda-forge
-decorator                 4.4.2                    pypi_0    pypi
-defusedxml                0.6.0                    pypi_0    pypi
-entrypoints               0.3                      pypi_0    pypi
-floweaver                 2.0.0a6                  pypi_0    pypi
-freetype                  2.10.2               h8da9a1a_0    conda-forge
-importlib-metadata        1.6.0                    pypi_0    pypi
-ipykernel                 5.3.0                    pypi_0    pypi
-ipysankeywidget           0.3.0                    pypi_0    pypi
-ipython                   7.14.0                   pypi_0    pypi
-ipython-genutils          0.2.0                    pypi_0    pypi
-ipywidgets                7.5.1                    pypi_0    pypi
-jedi                      0.17.0                   pypi_0    pypi
-jinja2                    2.11.2                   pypi_0    pypi
-joblib                    0.15.1                     py_0    conda-forge
-jsonschema                3.2.0                    pypi_0    pypi
-jupyter-client            6.1.3                    pypi_0    pypi
-jupyter-core              4.6.3                    pypi_0    pypi
-kiwisolver                1.2.0            py36h863e41a_0    conda-forge
-libcxx                    10.0.0               h1af66ff_2    conda-forge
-libffi                    3.2.1             h4a8c4bd_1007    conda-forge
-libgfortran               3.0.1                         0    conda-forge
-libgpuarray               0.7.6             h1de35cc_1003    conda-forge
-libpng                    1.6.37               hbbe82c9_1    conda-forge
-mako                      1.1.0                      py_0    conda-forge
-markupsafe                1.1.1            py36h37b9a7d_1    conda-forge
-matplotlib                3.1.0                    py36_0    conda-forge
-matplotlib-base           3.1.0            py36habd5b94_0    conda-forge
-mistune                   0.8.4                    pypi_0    pypi
-nbconvert                 5.6.1                    pypi_0    pypi
-nbformat                  5.0.6                    pypi_0    pypi
-ncurses                   6.1               h0a44026_1002    conda-forge
-networkx                  2.4                      pypi_0    pypi
-notebook                  6.0.3                    pypi_0    pypi
-numpy                     1.12.1          py36_blas_openblas_200  [blas_openblas]  conda-forge
-openblas                  0.2.19                        2    conda-forge
-openssl                   1.1.1g               h0b31af3_0    conda-forge
-packaging                 20.4                     pypi_0    pypi
-palettable                3.3.0                    pypi_0    pypi
-pandas                    0.24.2           py36h0a44026_0    conda-forge
-pandocfilters             1.4.2                    pypi_0    pypi
-parso                     0.7.0                    pypi_0    pypi
-patsy                     0.5.1                      py_0    conda-forge
-pexpect                   4.8.0                    pypi_0    pypi
-pickleshare               0.7.5                    pypi_0    pypi
-pip                       20.1.1             pyh9f0ad1d_0    conda-forge
-prometheus-client         0.8.0                    pypi_0    pypi
-prompt-toolkit            3.0.5                    pypi_0    pypi
-ptyprocess                0.6.0                    pypi_0    pypi
-pygments                  2.6.1                    pypi_0    pypi
-pygpu                     0.7.6           py36h917ab60_1000    conda-forge
-pymc3                     3.0                      py36_0    conda-forge
-pyparsing                 2.4.7              pyh9f0ad1d_0    conda-forge
-pyrsistent                0.16.0                   pypi_0    pypi
-python                    3.6.10          h4334963_1011_cpython    conda-forge
-python-dateutil           2.8.1                      py_0    conda-forge
-python_abi                3.6                     1_cp36m    conda-forge
-pytz                      2020.1             pyh9f0ad1d_0    conda-forge
-pyzmq                     19.0.1                   pypi_0    pypi
-readline                  8.0                  hcfe32e1_0    conda-forge
-scipy                     0.19.1          py36_blas_openblas_202  [blas_openblas]  conda-forge
-seaborn                   0.9.0                      py_2    conda-forge
-send2trash                1.5.0                    pypi_0    pypi
-setuptools                46.4.0           py36h9f0ad1d_0    conda-forge
-six                       1.15.0             pyh9f0ad1d_0    conda-forge
-sqlite                    3.30.1               h93121df_0    conda-forge
-statsmodels               0.9.0           py36h917ab60_1000    conda-forge
-terminado                 0.8.3                    pypi_0    pypi
-testpath                  0.4.4                    pypi_0    pypi
-theano                    1.0.3                    py36_0    conda-forge
-tk                        8.6.10               hbbe82c9_0    conda-forge
-tornado                   6.0.4            py36h37b9a7d_1    conda-forge
-tqdm                      4.46.0             pyh9f0ad1d_0    conda-forge
-traitlets                 4.3.3                    pypi_0    pypi
-wcwidth                   0.1.9                    pypi_0    pypi
-webencodings              0.5.1                    pypi_0    pypi
-wheel                     0.34.2                     py_1    conda-forge
-widgetsnbextension        3.5.1                    pypi_0    pypi
-xz                        5.2.5                h0b31af3_0    conda-forge
-zipp                      3.1.0                    pypi_0    pypi
-zlib                      1.2.11            h0b31af3_1006    conda-forge
+appnope == 0.1.0
+attrs == 19.3.0
+backcall == 0.1.0
+blas == 1.1
+bleach == 3.1.5
+ca-certificates == 2020.4.5.1
+certifi == 2020.4.5.1
+cycler == 0.10.0
+decorator == 4.4.2
+defusedxml == 0.6.0
+entrypoints == 0.3
+floweaver == 2.0.0a6
+freetype == 2.10.2
+importlib-metadata == 1.6.0
+ipykernel == 5.3.0
+ipysankeywidget == 0.3.0
+ipython == 7.14.0
+ipython-genutils == 0.2.0
+ipywidgets == 7.5.1
+jedi == 0.17.0
+jinja2 == 2.11.2
+joblib == 0.15.1
+jsonschema == 3.2.0
+jupyter-client == 6.1.3
+jupyter-core == 4.6.3
+kiwisolver == 1.2.0
+libcxx == 10.0.0
+libffi == 3.2.1
+libgfortran == 3.0.1
+libgpuarray == 0.7.6
+libpng == 1.6.37
+mako == 1.1.0
+markupsafe == 1.1.1
+matplotlib == 3.1.0
+matplotlib-base == 3.1.0
+mistune == 0.8.4
+nbconvert == 5.6.1
+nbformat == 5.0.6
+ncurses == 6.1
+networkx == 2.4
+notebook == 6.0.3
+numpy == 1.12.1
+openblas == 0.2.19
+openssl == 1.1.1g
+packaging == 20.4
+palettable == 3.3.0
+pandas == 0.24.2
+pandocfilters == 1.4.2
+parso == 0.7.0
+patsy == 0.5.1
+pexpect == 4.8.0
+pickleshare == 0.7.5
+pip == 20.1.1
+prometheus-client == 0.8.0
+prompt-toolkit == 3.0.5
+ptyprocess == 0.6.0
+pygments == 2.6.1
+pygpu == 0.7.6
+pymc3 == 3
+pyparsing == 2.4.7
+pyrsistent == 0.16.0
+python == 3.6.10
+python-dateutil == 2.8.1
+python_abi == 3.6
+pytz == 2020.1
+pyzmq == 19.0.1
+readline == 8
+scipy == 0.19.1
+seaborn == 0.9.0
+send2trash == 1.5.0
+setuptools == 46.4.0
+six == 1.15.0
+sqlite == 3.30.1
+statsmodels == 0.9.0
+terminado == 0.8.3
+testpath == 0.4.4
+theano == 1.0.3
+tk == 8.6.10
+tornado == 6.0.4
+tqdm == 4.46.0
+traitlets == 4.3.3
+wcwidth == 0.1.9
+webencodings == 0.5.1
+wheel == 0.34.2
+widgetsnbextension == 3.5.1
+xz == 5.2.5
+zipp == 3.1.0
+zlib == 1.2.11
