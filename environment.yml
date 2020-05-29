@@ -13,5 +13,5 @@ dependencies:
   - kiwisolver
   - pip
   - pip:
-      - ipysankeywidget == 0.3.0
+      - ipysankeywidget
       - floweaver
