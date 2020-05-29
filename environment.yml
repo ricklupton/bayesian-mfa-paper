@@ -9,6 +9,8 @@ dependencies:
   - pandas
   - matplotlib
   - seaborn
+  - mkl-service
+  - kiwisolver
   - pip
   - pip:
       - ipysankeywidget
