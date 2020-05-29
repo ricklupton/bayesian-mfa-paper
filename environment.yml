@@ -9,7 +9,9 @@ dependencies:
   - pandas
   - matplotlib
   - seaborn
+  - mkl-service
+  - kiwisolver
   - pip
   - pip:
-      - ipysankeywidget
+      - ipysankeywidget == 0.3.0
       - floweaver
